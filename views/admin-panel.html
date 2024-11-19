@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>پنل مدیریت Phoenix</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/styles/admin-panel.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="bg-gray-900 text-white">
+    <div class="flex h-screen">
+        <!-- Sidebar -->
+        <div class="w-64 bg-gray-800 shadow-lg">
+            <div class="p-6">
+                <h1 class="text-2xl font-bold">Phoenix Admin</h1>
+            </div>
+            <nav class="mt-6">
+                <a href="#dashboard" class="flex items-center py-3 px-6 text-gray-300 hover:bg-gray-700 active">
+                    <i class="fas fa-chart-line mr-3"></i>
+                    داشبورد
+                </a>
+                <a href="#users" class="flex items-center py-3 px-6 text-gray-300 hover:bg-gray-700">
+                    <i class="fas fa-users mr-3"></i>
+                    کاربران
+                </a>
+                <a href="#tasks" class="flex items-center py-3 px-6 text-gray-300 hover:bg-gray-700">
+                    <i class="fas fa-tasks mr-3"></i>
+                    تسک‌ها
+                </a>
+                <a href="#broadcast" class="flex items-center py-3 px-6 text-gray-300 hover:bg-gray-700">
+                    <i class="fas fa-broadcast-tower mr-3"></i>
+                    ارسال پیام
+                </a>
+                <a href="#settings" class="flex items-center py-3 px-6 text-gray-300 hover:bg-gray-700">
+                    <i class="fas fa-cog mr-3"></i>
+                    تنظیمات
+                </a>
+            </nav>
+        </div>
+
+        <!-- Main Content -->
+        <div class="flex-1 overflow-auto">
+            <header class="bg-gray-800 shadow-lg p-4">
+                <div class="flex justify-between items-center">
+                    <h2 class="text-xl font-semibold">داشبورد</h2>
+                    <div class="flex items-center">
+                        <span class="mr-2">ادمین</span>
+                        <img src="E:\d\Phoenix\phoenix-admin\views\myme.png" alt="image" class="w-8 h-8 rounded-full">
+                    </div>
+                </div>
+            </header>
+
+            <!-- Stats Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 p-6">
+                <div class="bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg shadow-lg p-6">
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <h3 class="text-gray-200">کاربران کل</h3>
+                            <p id="totalUsers" class="text-3xl font-bold">0</p>
+                        </div>
+                        <i class="fas fa-users text-4xl text-blue-200"></i>
+                    </div>
+                </div>
+
+                <div class="bg-gradient-to-r from-green-500 to-green-600 rounded-lg shadow-lg p-6">
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <h3 class="text-gray-200">کاربران آنلاین</h3>
+                            <p id="onlineUsers" class="text-3xl font-bold">0</p>
+                        </div>
+                        <i class="fas fa-signal text-4xl text-green-200"></i>
+                    </div>
+                </div>
+
+                <div class="bg-gradient-to-r from-purple-500 to-purple-600 rounded-lg shadow-lg p-6">
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <h3 class="text-gray-200">کاربران 24 ساعت اخیر</h3>
+                            <p id="lastDayUsers" class="text-3xl font-bold">0</p>
+                        </div>
+                        <i class="fas fa-clock text-4xl text-purple-200"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tasks Manager -->
+            <div class="p-6">
+                <div class="bg-gray-800 rounded-lg shadow-lg p-6">
+                    <h3 class="text-xl font-semibold mb-4">مدیریت تسک‌ها</h3>
+                    <form id="newTaskForm" class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+                        <input type="text" name="name" placeholder="نام تسک" class="bg-gray-700 rounded p-2">
+                        <input type="number" name="reward" placeholder="پاداش" class="bg-gray-700 rounded p-2">
+                        <label for="type">نوع تسک</label>
+                        <select id="type" name="type" class="bg-gray-700 rounded p-2">
+                            <option value="youtube">یوتیوب</option>
+                            <option value="telegram">تلگرام</option>
+                            <option value="twitter">توییتر</option>
+                            <option value="invite">دعوت دوستان</option>
+                            <option value="wallet">اتصال کیف پول</option>
+                        </select>
+                        <textarea name="function" placeholder="تابع عملکرد تسک" class="bg-gray-700 rounded p-2 h-24"></textarea>
+                        <button type="submit" class="bg-blue-500 hover:bg-blue-600 rounded p-2">افزودن تسک</button>
+                    </form>
+                    
+                    <!-- Tasks List -->
+                    <div class="overflow-x-auto">
+                        <table class="w-full">
+                            <thead class="bg-gray-700">
+                                <tr>
+                                    <th class="p-3 text-right">نام تسک</th>
+                                    <th class="p-3">پاداش</th>
+                                    <th class="p-3">نوع</th>
+                                    <th class="p-3">تابع</th>
+                                    <th class="p-3">عملیات</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tasksTableBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Broadcast -->
+            <div class="p-6">
+                <div class="bg-gray-800 rounded-lg shadow-lg p-6">
+                    <h3 class="text-xl font-semibold mb-4">ارسال پیام گروهی</h3>
+                    <div class="space-y-4">
+                        <textarea id="broadcastMessage" rows="4" class="w-full bg-gray-700 rounded p-2" placeholder="متن پیام..."></textarea>
+                        <div class="flex gap-4">
+                            <label for="messageType">ارسال پیام</label>
+                            <select id="messageType" class="bg-gray-700 rounded p-2">
+                                <option value="all">همه کاربران</option>
+                                <option value="online">کاربران آنلاین</option>
+                                <option value="league">بر اساس لیگ</option>
+                            </select>
+                            <button onclick="sendBroadcast()" class="bg-green-500 hover:bg-green-600 rounded px-4 py-2">
+                                ارسال پیام
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Rankings -->
+            <div class="p-6">
+                <div class="bg-gray-800 rounded-lg shadow-lg p-6">
+                    <h3 class="text-xl font-semibold mb-4">رتبه‌بندی کاربران</h3>
+                    <div class="flex gap-4 mb-4">
+                      <label for="sortingBy">ترتیب</label>
+                      <select id="sortingBy" onchange="updateRankings(this.value)" class="bg-gray-700 rounded p-2">
+                        <option value="coins">بر اساس سکه</option>
+                        <option value="league">بر اساس لیگ</option>
+                        <option value="wallet">بر اساس کیف پول</option>
+                      </select>
+                      <input type="number" id="limitCount" placeholder="تعداد نمایش" value="10" class="bg-gray-700 rounded p-2">
+                    </div>
+                    <div id="rankingsList" class="space-y-2"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="/scripts/admin.js"></script>
+</body>
+</html>
